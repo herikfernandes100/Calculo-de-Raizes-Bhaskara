@@ -6,74 +6,99 @@ public class Equacao {
     private double b;
     private double c;
 
-    //criando os métodos get e set para cada atributo
-
-    public double getA (){
+    // Métodos get e set para cada atributo
+    public double getA() {
         return a;
     }
 
-    public void setA (double a){
+    public void setA(double a) {
         this.a = a;
     }
 
-    public double getB (){
+    public double getB() {
         return b;
     }
 
-    public void setB (double b){
+    public void setB(double b) {
         this.b = b;
     }
 
-    public double getC (){
+    public double getC() {
         return c;
     }
 
-    public void setC (double c){
+    public void setC(double c) {
         this.c = c;
     }
 
-    public double delta (){ //método para calcular o delta
-        return (double) (Math.pow(b, 2) - (4*a*c));
+    // Método para calcular o delta
+    public double delta() {
+        return Math.pow(b, 2) - (4 * a * c);
     }
 
-    public double retornaX1 (){ //método para calcular a primeira raiz
+    // Método para calcular a primeira raiz
+    public double retornaX1() {
         double d = delta();
-        return (double) ((-b + Math.sqrt(d)) / (2*a));
+        return (-b + Math.sqrt(d)) / (2 * a);
     }
 
-    public double retornaX2 (){ //método para calcular a segunda raiz
+    // Método para calcular a segunda raiz
+    public double retornaX2() {
         double d = delta();
-        return (double) ((-b - Math.sqrt(d)) / (2*a));
+        return (-b - Math.sqrt(d)) / (2 * a);
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+        boolean continuar = true; // Variável para definir se o usuário deseja sair ou continuar
 
-        boolean continuar = true; //variável para definir se usuário deseja sair ou continuar após execução
+        do {
+            try {
+                Equacao equacao = new Equacao();
 
-        do { //início do loop
-            Equacao equacao = new Equacao();
-            
-            //leitura dos parâmetros informados pelo usuário
-            equacao.setA(Double.parseDouble(JOptionPane.showInputDialog(null, "Insira o parâmetro A: ", "A", JOptionPane.QUESTION_MESSAGE)));
-            equacao.setB(Double.parseDouble(JOptionPane.showInputDialog(null, "Insira o parâmetro B: ", "B", JOptionPane.QUESTION_MESSAGE)));
-            equacao.setC(Double.parseDouble(JOptionPane.showInputDialog(null, "Insira o parâmetro C: ", "C", JOptionPane.QUESTION_MESSAGE)));
+                // Leitura dos parâmetros informados pelo usuário
+                equacao.setA(leituraParametro("Insira o parâmetro A:"));
+                equacao.setB(leituraParametro("Insira o parâmetro B:"));
+                equacao.setC(leituraParametro("Insira o parâmetro C:"));
 
-            //chamada das funções para o cálculo
-            double delta = equacao.delta();
-            double x1 = equacao.retornaX1();
-            double x2 = equacao.retornaX2();
+                // Cálculos
+                double delta = equacao.delta();
+                if (delta < 0) {
+                    JOptionPane.showMessageDialog(null, "Delta é negativo. Não existem raízes reais.", "Resultado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    double x1 = equacao.retornaX1();
+                    double x2 = equacao.retornaX2();
+                    // Exibição do resultado
+                    JOptionPane.showMessageDialog(null, "X1 = " + x1 + "\nX2 = " + x2, "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                }
 
-            //exibição do resultado
-            JOptionPane.showMessageDialog(null, "X1= " + x1 + "\nX2= " + x2, "RESULTADO:", JOptionPane.INFORMATION_MESSAGE);
+                // Pergunta se deseja continuar
+                int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja continuar?\n[0] Não\n[1] Sim", "Continuar?", JOptionPane.QUESTION_MESSAGE));
+                if (resposta == 0) {
+                    continuar = false;
+                    JOptionPane.showMessageDialog(null, "Saindo...", "Encerrando", JOptionPane.INFORMATION_MESSAGE);
+                }
 
-            //questiona ao usuário se ele deseja prosseguir
-            int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja prosseguir? \n[0] Não, sair. \n[1] Sim, continuar", "Continuar?", JOptionPane.QUESTION_MESSAGE));
-            if (resposta ==0){
-                continuar = false;
-                JOptionPane.showMessageDialog(null, "Saindo...", "ENCERRANDO PROGRAMA", JOptionPane.INFORMATION_MESSAGE);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Por favor, insira apenas números válidos.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        
-        }while (continuar); //loop funciona até que o usuário escolha sair
+        } while (continuar); // O loop continua até o usuário escolher sair
+    }
+
+    // Método para ler um parâmetro e garantir que o valor inserido é válido
+    private static double leituraParametro(String mensagem) {
+        double parametro = 0;
+        boolean valorValido = false;
+
+        while (!valorValido) {
+            try {
+                String entrada = JOptionPane.showInputDialog(null, mensagem, "Entrada de Dados", JOptionPane.QUESTION_MESSAGE);
+                parametro = Double.parseDouble(entrada); // Tenta converter para double
+                valorValido = true; // Se a conversão for bem-sucedida, o valor é válido
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Valor inválido. Tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        return parametro;
     }
 }
-// 24.11.2024 Maria Fernanda Machado Rabelo
