@@ -68,12 +68,10 @@ public class Equacao {
 
             //questiona ao usuário se ele deseja prosseguir
             int resposta = Integer.parseInt(JOptionPane.showInputDialog(null, "Deseja prosseguir? \n[0] Não, sair. \n[1] Sim, continuar", "Continuar?", JOptionPane.QUESTION_MESSAGE));
-            if (resposta ==0){
-                continuar = false;
-                JOptionPane.showMessageDialog(null, "Saindo...", "ENCERRANDO PROGRAMA", JOptionPane.INFORMATION_MESSAGE);
-            }
         
-        }while (continuar); //loop funciona até que o usuário escolha sair
+        }while (resposta != 0); //loop funciona até que o usuário escolha sair
+        
+        JOptionPane.showMessageDialog(null, "Saindo...", "ENCERRANDO PROGRAMA", JOptionPane.INFORMATION_MESSAGE);
     }
 }
 // 24.11.2024 Maria Fernanda Machado Rabelo
